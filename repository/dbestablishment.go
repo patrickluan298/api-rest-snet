@@ -1,4 +1,4 @@
-package database
+package repository
 
 import (
 	"api-rest-snet/models"
