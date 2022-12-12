@@ -1,5 +1,5 @@
 build:
-	go build server.go
+	go build -o api main.go
 
 run:
 	go run main.go
