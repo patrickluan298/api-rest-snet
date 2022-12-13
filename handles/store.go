@@ -2,7 +2,7 @@ package handles
 
 import (
 	"api-rest-snet/models"
-	"api-rest-snet/services"
+	"api-rest-snet/repositories"
 	"net/http"
 	"strconv"
 
@@ -14,7 +14,7 @@ func NewStore(c echo.Context) error {
 	if err := c.Bind(r); err != nil {
 		return err
 	}
-	err := services.InsertStore(r)
+	err := repositories.InsertStore(r)
 
 	if err != nil {
 		e := models.Message{
@@ -31,7 +31,7 @@ func NewStore(c echo.Context) error {
 
 func GetStore(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	err := services.SelectStore(id)
+	err := repositories.SelectStore(id)
 
 	if err != nil {
 		e := models.Message{
@@ -52,7 +52,7 @@ func UpdateStore(c echo.Context) error {
 		return err
 	}
 	id, _ := strconv.Atoi(c.Param("id"))
-	services.UpdateStore(r, id)
+	repositories.UpdateStore(r, id)
 
 	o := models.Message{
 		Message: "OK",
@@ -62,7 +62,7 @@ func UpdateStore(c echo.Context) error {
 }
 
 func GetAllStores(c echo.Context) error {
-	err := services.SelectAllStores()
+	err := repositories.SelectAllStores()
 
 	if err != nil {
 		e := models.Message{
@@ -79,7 +79,7 @@ func GetAllStores(c echo.Context) error {
 
 func DeleteStore(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	err := services.DeleteStore(id)
+	err := repositories.DeleteStore(id)
 
 	if err != nil {
 		e := models.Message{

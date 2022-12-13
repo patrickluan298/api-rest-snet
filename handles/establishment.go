@@ -2,7 +2,7 @@ package handles
 
 import (
 	"api-rest-snet/models"
-	"api-rest-snet/services"
+	"api-rest-snet/repositories"
 	"net/http"
 	"strconv"
 
@@ -14,7 +14,7 @@ func NewEstablishment(c echo.Context) error {
 	if err := c.Bind(r); err != nil {
 		return err
 	}
-	err := services.InsertEstablishment(r)
+	err := repositories.InsertEstablishment(r)
 
 	if err != nil {
 		e := models.Message{
@@ -31,7 +31,7 @@ func NewEstablishment(c echo.Context) error {
 
 func GetEstablishment(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	err := services.SelectEstablishment(id)
+	err := repositories.SelectEstablishment(id)
 
 	if err != nil {
 		e := models.Message{
@@ -52,7 +52,7 @@ func UpdateEstablishment(c echo.Context) error {
 		return err
 	}
 	id, _ := strconv.Atoi(c.Param("id"))
-	services.UpdateEstablishment(r, id)
+	repositories.UpdateEstablishment(r, id)
 
 	o := models.Message{
 		Message: "OK",
@@ -62,7 +62,7 @@ func UpdateEstablishment(c echo.Context) error {
 }
 
 func GetAllEstablishments(c echo.Context) error {
-	err := services.SelectAllEstablishments()
+	err := repositories.SelectAllEstablishments()
 
 	if err != nil {
 		e := models.Message{
@@ -79,7 +79,7 @@ func GetAllEstablishments(c echo.Context) error {
 
 func DeleteEstablishment(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	err := services.DeleteEstablishment(id)
+	err := repositories.DeleteEstablishment(id)
 
 	if err != nil {
 		e := models.Message{
