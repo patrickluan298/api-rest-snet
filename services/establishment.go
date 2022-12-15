@@ -1,16 +1,24 @@
 package services
 
-// func (e *models.Establishment) Validate() error {
-// 	return validation.ValidateStruct(
-// 		validation.Field(&e.Nome, validation.Required, validation.Length(5, 50)),
-// 		validation.Field(&e.RazaoSocial, validation.Required, validation.Length(5, 50)),
-// 		validation.Field(&e.Endereco, validation.Required, validation.Length(5, 50)),
-// 		validation.Field(&e.Estado, validation.Required),
-// 		validation.Field(&e.Cidade, validation.Required),
-// 		validation.Field(&e.Cep, validation.Required, validation.Length(10, 10)),
-// 		validation.Field(&e.NumEstablishment, validation.Required),
-// 	)
-// }
+import (
+	"api-rest-snet/models"
+	"fmt"
 
-// e := Establishment{}
-// err := e.Validate()
+	"gopkg.in/validator.v2"
+)
+
+func ValidateEstablishment(e *models.Establishment) error {
+	if err := validator.Validate(e); err != nil {
+		fmt.Println("Error registering establishment:", err.Error())
+		return err
+	}
+	return nil
+}
+
+func ValidateStore(e *models.Store) error {
+	if err := validator.Validate(e); err != nil {
+		fmt.Println("Error registering store:", err.Error())
+		return err
+	}
+	return nil
+}

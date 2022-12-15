@@ -3,6 +3,7 @@ package handles
 import (
 	"api-rest-snet/models"
 	"api-rest-snet/repositories"
+	"api-rest-snet/services"
 	"net/http"
 	"strconv"
 
@@ -14,6 +15,14 @@ func NewEstablishment(c echo.Context) error {
 	if err := c.Bind(r); err != nil {
 		return err
 	}
+
+	if err := services.ValidateEstablishment(r); err != nil {
+		e := models.Message{
+			Message: err.Error(),
+		}
+		return c.JSON(http.StatusBadRequest, e)
+	}
+
 	err := repositories.InsertEstablishment(r)
 
 	if err != nil {
@@ -51,13 +60,20 @@ func UpdateEstablishment(c echo.Context) error {
 	if err := c.Bind(r); err != nil {
 		return err
 	}
+
+	if err := services.ValidateEstablishment(r); err != nil {
+		e := models.Message{
+			Message: err.Error(),
+		}
+		return c.JSON(http.StatusBadRequest, e)
+	}
+
 	id, _ := strconv.Atoi(c.Param("id"))
 	repositories.UpdateEstablishment(r, id)
 
 	o := models.Message{
 		Message: "OK",
 	}
-
 	return c.JSON(http.StatusOK, o)
 }
 

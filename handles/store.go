@@ -3,6 +3,7 @@ package handles
 import (
 	"api-rest-snet/models"
 	"api-rest-snet/repositories"
+	"api-rest-snet/services"
 	"net/http"
 	"strconv"
 
@@ -14,6 +15,14 @@ func NewStore(c echo.Context) error {
 	if err := c.Bind(r); err != nil {
 		return err
 	}
+
+	if err := services.ValidateStore(r); err != nil {
+		e := models.Message{
+			Message: err.Error(),
+		}
+		return c.JSON(http.StatusBadRequest, e)
+	}
+
 	err := repositories.InsertStore(r)
 
 	if err != nil {
@@ -51,6 +60,14 @@ func UpdateStore(c echo.Context) error {
 	if err := c.Bind(r); err != nil {
 		return err
 	}
+
+	if err := services.ValidateStore(r); err != nil {
+		e := models.Message{
+			Message: err.Error(),
+		}
+		return c.JSON(http.StatusBadRequest, e)
+	}
+
 	id, _ := strconv.Atoi(c.Param("id"))
 	repositories.UpdateStore(r, id)
 
