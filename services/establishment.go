@@ -14,11 +14,3 @@ func ValidateEstablishment(e *models.Establishment) error {
 	}
 	return nil
 }
-
-func ValidateStore(e *models.Store) error {
-	if err := validator.Validate(e); err != nil {
-		fmt.Println("Error registering store:", err.Error())
-		return err
-	}
-	return nil
-}
