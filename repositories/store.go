@@ -111,10 +111,10 @@ func UpdateStore(e *models.Store, id int) {
 		_, err = db.Exec(query, e.NumLoja, id)
 	}
 	checkErr(err)
-	defer db.Close()
-
 	SelectStore(id)
+
 	fmt.Println("Store updated successfully")
+	defer db.Close()
 }
 
 func SelectAllStores() error {
@@ -170,8 +170,8 @@ func DeleteStore(id int) error {
 	query := `delete from Store where id = $1`
 	_, err = db.Exec(query, id)
 
-	defer db.Close()
 	fmt.Println("Id deleted successfully")
 
+	defer db.Close()
 	return nil
 }

@@ -11,30 +11,21 @@ import (
 )
 
 func NewEstablishment(c echo.Context) error {
-	r := &models.Establishment{}
-	if err := c.Bind(r); err != nil {
+	request := &models.Establishment{}
+	if err := c.Bind(request); err != nil {
 		return err
 	}
 
-	if err := services.ValidateEstablishment(r); err != nil {
-		e := models.Message{
+	if err := services.InsertEstablishment(request); err != nil {
+		message := models.Message{
 			Message: err.Error(),
 		}
-		return c.JSON(http.StatusBadRequest, e)
-	}
-
-	err := repositories.InsertEstablishment(r)
-
-	if err != nil {
-		e := models.Message{
-			Message: err.Error(),
-		}
-		return c.JSON(http.StatusBadRequest, e)
+		return c.JSON(http.StatusBadRequest, message)
 	} else {
-		o := models.Message{
+		message := models.Message{
 			Message: "OK",
 		}
-		return c.JSON(http.StatusOK, o)
+		return c.JSON(http.StatusOK, message)
 	}
 }
 
@@ -43,53 +34,52 @@ func GetEstablishment(c echo.Context) error {
 	err := repositories.SelectEstablishment(id)
 
 	if err != nil {
-		e := models.Message{
+		message := models.Message{
 			Message: err.Error(),
 		}
-		return c.JSON(http.StatusBadRequest, e)
+		return c.JSON(http.StatusBadRequest, message)
 	} else {
-		o := models.Message{
+		message := models.Message{
 			Message: "OK",
 		}
-		return c.JSON(http.StatusOK, o)
+		return c.JSON(http.StatusOK, message)
 	}
 }
 
 func UpdateEstablishment(c echo.Context) error {
-	r := &models.Establishment{}
-	if err := c.Bind(r); err != nil {
+	request := &models.Establishment{}
+	if err := c.Bind(request); err != nil {
 		return err
 	}
 
-	if err := services.ValidateEstablishment(r); err != nil {
-		e := models.Message{
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	if err := services.UpdateEstablishment(request, id); err != nil {
+		message := models.Message{
 			Message: err.Error(),
 		}
-		return c.JSON(http.StatusBadRequest, e)
+		return c.JSON(http.StatusBadRequest, message)
+	} else {
+		message := models.Message{
+			Message: "OK",
+		}
+		return c.JSON(http.StatusOK, message)
 	}
-
-	id, _ := strconv.Atoi(c.Param("id"))
-	repositories.UpdateEstablishment(r, id)
-
-	o := models.Message{
-		Message: "OK",
-	}
-	return c.JSON(http.StatusOK, o)
 }
 
 func GetAllEstablishments(c echo.Context) error {
 	err := repositories.SelectAllEstablishments()
 
 	if err != nil {
-		e := models.Message{
+		message := models.Message{
 			Message: err.Error(),
 		}
-		return c.JSON(http.StatusBadRequest, e)
+		return c.JSON(http.StatusBadRequest, message)
 	} else {
-		o := models.Message{
+		message := models.Message{
 			Message: "OK",
 		}
-		return c.JSON(http.StatusOK, o)
+		return c.JSON(http.StatusOK, message)
 	}
 }
 
@@ -98,14 +88,14 @@ func DeleteEstablishment(c echo.Context) error {
 	err := repositories.DeleteEstablishment(id)
 
 	if err != nil {
-		e := models.Message{
+		message := models.Message{
 			Message: err.Error(),
 		}
-		return c.JSON(http.StatusBadRequest, e)
+		return c.JSON(http.StatusBadRequest, message)
 	} else {
-		o := models.Message{
+		message := models.Message{
 			Message: "OK",
 		}
-		return c.JSON(http.StatusOK, o)
+		return c.JSON(http.StatusOK, message)
 	}
 }

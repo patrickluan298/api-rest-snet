@@ -11,30 +11,21 @@ import (
 )
 
 func NewStore(c echo.Context) error {
-	r := &models.Store{}
-	if err := c.Bind(r); err != nil {
+	request := &models.Store{}
+	if err := c.Bind(request); err != nil {
 		return err
 	}
 
-	if err := services.ValidateStore(r); err != nil {
-		e := models.Message{
+	if err := services.InsertStore(request); err != nil {
+		message := models.Message{
 			Message: err.Error(),
 		}
-		return c.JSON(http.StatusBadRequest, e)
-	}
-
-	err := repositories.InsertStore(r)
-
-	if err != nil {
-		e := models.Message{
-			Message: err.Error(),
-		}
-		return c.JSON(http.StatusBadRequest, e)
+		return c.JSON(http.StatusBadRequest, message)
 	} else {
-		o := models.Message{
+		message := models.Message{
 			Message: "OK",
 		}
-		return c.JSON(http.StatusOK, o)
+		return c.JSON(http.StatusOK, message)
 	}
 }
 
@@ -43,54 +34,52 @@ func GetStore(c echo.Context) error {
 	err := repositories.SelectStore(id)
 
 	if err != nil {
-		e := models.Message{
+		message := models.Message{
 			Message: err.Error(),
 		}
-		return c.JSON(http.StatusBadRequest, e)
+		return c.JSON(http.StatusBadRequest, message)
 	} else {
-		o := models.Message{
+		message := models.Message{
 			Message: "OK",
 		}
-		return c.JSON(http.StatusOK, o)
+		return c.JSON(http.StatusOK, message)
 	}
 }
 
 func UpdateStore(c echo.Context) error {
-	r := &models.Store{}
-	if err := c.Bind(r); err != nil {
+	request := &models.Store{}
+	if err := c.Bind(request); err != nil {
 		return err
 	}
 
-	if err := services.ValidateStore(r); err != nil {
-		e := models.Message{
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	if err := services.UpdateStore(request, id); err != nil {
+		message := models.Message{
 			Message: err.Error(),
 		}
-		return c.JSON(http.StatusBadRequest, e)
+		return c.JSON(http.StatusBadRequest, message)
+	} else {
+		message := models.Message{
+			Message: "OK",
+		}
+		return c.JSON(http.StatusOK, message)
 	}
-
-	id, _ := strconv.Atoi(c.Param("id"))
-	repositories.UpdateStore(r, id)
-
-	o := models.Message{
-		Message: "OK",
-	}
-
-	return c.JSON(http.StatusOK, o)
 }
 
 func GetAllStores(c echo.Context) error {
 	err := repositories.SelectAllStores()
 
 	if err != nil {
-		e := models.Message{
+		message := models.Message{
 			Message: err.Error(),
 		}
-		return c.JSON(http.StatusBadRequest, e)
+		return c.JSON(http.StatusBadRequest, message)
 	} else {
-		o := models.Message{
+		message := models.Message{
 			Message: "OK",
 		}
-		return c.JSON(http.StatusOK, o)
+		return c.JSON(http.StatusOK, message)
 	}
 }
 
@@ -99,14 +88,14 @@ func DeleteStore(c echo.Context) error {
 	err := repositories.DeleteStore(id)
 
 	if err != nil {
-		e := models.Message{
+		message := models.Message{
 			Message: err.Error(),
 		}
-		return c.JSON(http.StatusBadRequest, e)
+		return c.JSON(http.StatusBadRequest, message)
 	} else {
-		o := models.Message{
+		message := models.Message{
 			Message: "OK",
 		}
-		return c.JSON(http.StatusOK, o)
+		return c.JSON(http.StatusOK, message)
 	}
 }

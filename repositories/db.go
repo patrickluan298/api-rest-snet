@@ -5,8 +5,10 @@ import (
 	"fmt"
 )
 
-var db *sql.DB
-var err error
+var (
+	db  *sql.DB
+	err error
+)
 
 const (
 	Host     = "localhost"
@@ -27,6 +29,7 @@ func Connection() {
 
 	db, err = sql.Open("postgres", connection)
 	checkErr(err)
+
 	err = db.Ping()
 	checkErr(err)
 }

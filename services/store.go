@@ -2,15 +2,26 @@ package services
 
 import (
 	"api-rest-snet/models"
+	"api-rest-snet/repositories"
 	"fmt"
 
 	"gopkg.in/validator.v2"
 )
 
-func ValidateStore(e *models.Store) error {
-	if err := validator.Validate(e); err != nil {
+func InsertStore(request *models.Store) error {
+	if err := validator.Validate(request); err != nil {
 		fmt.Println("Error registering store:", err.Error())
 		return err
 	}
+	repositories.InsertStore(request)
+	return nil
+}
+
+func UpdateStore(request *models.Store, id int) error {
+	if err := validator.Validate(request); err != nil {
+		fmt.Println("Error registering store:", err.Error())
+		return err
+	}
+	repositories.UpdateStore(request, id)
 	return nil
 }

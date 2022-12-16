@@ -23,13 +23,12 @@ func InsertEstablishment(e *models.Establishment) error {
 		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 			return errors.New("Existing establishment number")
 		}
-
+		
 		return err
 	}
 
 	SelectEstablishment(id)
 	fmt.Println("Establishment successfully registered. Registration ID:", id)
-
 	return nil
 }
 
@@ -104,10 +103,10 @@ func UpdateEstablishment(e *models.Establishment, id int) {
 	}
 
 	checkErr(err)
-	defer db.Close()
-
 	SelectEstablishment(id)
+
 	fmt.Println("Establishment updated successfully")
+	defer db.Close()
 }
 
 func SelectAllEstablishments() error {
@@ -142,7 +141,6 @@ func SelectAllEstablishments() error {
 		fmt.Println("Número do Estabelecimento:", e.NumEstabelecimento)
 		fmt.Println("")
 	}
-
 	return nil
 }
 
@@ -163,8 +161,8 @@ func DeleteEstablishment(id int) error {
 	query := `delete from Establishment where id = $1`
 	_, err = db.Exec(query, id)
 
-	defer db.Close()
 	fmt.Println("Id deleted successfully")
 
+	defer db.Close()
 	return nil
 }
