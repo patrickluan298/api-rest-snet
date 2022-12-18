@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     networks:
-      - backend
+      - api-network
     image: api-rest-snet
     container_name: api-rest-container
     depends_on:
@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: ./db-docker/Dockerfile
     networks:
-      - backend
+      - api-network
     image: db-postgres:1.0
     container_name: database-container
     hostname: database
@@ -45,4 +45,5 @@ volumes:
       device: "$PWD/postgres_custom"
 
 networks:
-  backend:
+  api-network:
+    driver: bridge
