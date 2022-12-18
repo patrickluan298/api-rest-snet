@@ -1,0 +1,51 @@
+version: "3.3"
+
+services:
+  api-rest-snet:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - backend
+    image: api-rest-snet
+    container_name: api-rest-container
+    depends_on:
+      - database
+    command:
+      /bin/bash -c "./wait-dependencies.sh; ."
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+      - pg-config:/etc/postgresql
+    entrypoint: docker-entrypoint.sh -c 'config_file=/etc/postgresql/postgresql.conf'
+
+  database:
+    build:
+      context: .
+      dockerfile: ./db-docker/Dockerfile
+    networks:
+      - backend
+    image: db-postgres:1.0
+    container_name: database-container
+    hostname: database
+    environment:
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=753159"
+      - "POSTGRES_DB=api-rest-snet"
+    ports:
+      - 5432:5432
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+      - pg-config:/etc/postgresql
+    entrypoint: docker-entrypoint.sh -c 'config_file=/etc/postgresql/postgresql.conf'
+
+volumes:
+  pg-data:
+  pg-config:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "$PWD/postgres_custom"
+
+networks:
+  backend:
