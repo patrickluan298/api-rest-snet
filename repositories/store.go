@@ -36,16 +36,16 @@ func InsertStore(e *models.Store) error {
 	return nil
 }
 
-func SelectStore(id int) error {
+func SelectStore(NumLoja int) error {
 	Connection()
 
-	query := `select id from Store where id = $1`
-	r, _ := db.Query(query, id)
+	query := `select NumLoja from Store where NumLoja = $1`
+	r, _ := db.Query(query, NumLoja)
 	defer db.Close()
 
-	var idT int = 0
+	var NumLojaDB int = 0
 	r.Next()
-	if err := r.Scan(&idT); err != nil {
+	if err := r.Scan(&NumLojaDB); err != nil {
 		fmt.Println("Error selecting store:", err.Error())
 
 		if strings.Contains(err.Error(), "Rows are closed") {
@@ -54,9 +54,9 @@ func SelectStore(id int) error {
 
 		return err
 	} else {
-		if id == idT {
-			query := `select * from Store where id = $1`
-			r, _ := db.Query(query, id)
+		if NumLoja == NumLojaDB {
+			query := `select * from Store where NumLoja = $1`
+			r, _ := db.Query(query, NumLoja)
 
 			for r.Next() {
 				e := models.Store{}
@@ -79,39 +79,39 @@ func SelectStore(id int) error {
 	}
 }
 
-func UpdateStore(e *models.Store, id int) {
+func UpdateStore(e *models.Store, NumLoja int) {
 	Connection()
 
 	if e.Nome != "" {
-		query := `UPDATE Store set Nome = $1 WHERE id = $2`
-		_, err = db.Exec(query, e.Nome, id)
+		query := `UPDATE Store set Nome = $1 WHERE NumLoja = $2`
+		_, err = db.Exec(query, e.Nome, NumLoja)
 	}
 	if e.RazaoSocial != "" {
-		query := `UPDATE Store set RazaoSocial = $1 WHERE id = $2`
-		_, err = db.Exec(query, e.RazaoSocial, id)
+		query := `UPDATE Store set RazaoSocial = $1 WHERE NumLoja = $2`
+		_, err = db.Exec(query, e.RazaoSocial, NumLoja)
 	}
 	if e.Endereco != "" {
-		query := `UPDATE Store set Endereco = $1 WHERE id = $2`
-		_, err = db.Exec(query, e.Endereco, id)
+		query := `UPDATE Store set Endereco = $1 WHERE NumLoja = $2`
+		_, err = db.Exec(query, e.Endereco, NumLoja)
 	}
 	if e.Estado != "" {
-		query := `UPDATE Store set Estado = $1 WHERE id = $2`
-		_, err = db.Exec(query, e.Estado, id)
+		query := `UPDATE Store set Estado = $1 WHERE NumLoja = $2`
+		_, err = db.Exec(query, e.Estado, NumLoja)
 	}
 	if e.Cidade != "" {
-		query := `UPDATE Store set Cidade = $1 WHERE id = $2`
-		_, err = db.Exec(query, e.Cidade, id)
+		query := `UPDATE Store set Cidade = $1 WHERE NumLoja = $2`
+		_, err = db.Exec(query, e.Cidade, NumLoja)
 	}
 	if e.Cep != "" {
-		query := `UPDATE Store set Cep = $1 WHERE id = $2`
-		_, err = db.Exec(query, e.Cep, id)
+		query := `UPDATE Store set Cep = $1 WHERE NumLoja = $2`
+		_, err = db.Exec(query, e.Cep, NumLoja)
 	}
 	if e.NumLoja != 0 {
-		query := `UPDATE Store set NumLoja = $1 WHERE id = $2`
-		_, err = db.Exec(query, e.NumLoja, id)
+		query := `UPDATE Store set NumLoja = $1 WHERE NumLoja = $2`
+		_, err = db.Exec(query, e.NumLoja, NumLoja)
 	}
 	checkErr(err)
-	SelectStore(id)
+	SelectStore(NumLoja)
 
 	fmt.Println("Store updated successfully")
 	defer db.Close()
@@ -153,8 +153,8 @@ func SelectAllStores() error {
 	return nil
 }
 
-func DeleteStore(id int) error {
-	err := SelectStore(id)
+func DeleteStore(NumLoja int) error {
+	err := SelectStore(NumLoja)
 
 	if err != nil {
 		fmt.Println("Error deleting store:", err.Error())
@@ -167,10 +167,10 @@ func DeleteStore(id int) error {
 	}
 
 	Connection()
-	query := `delete from Store where id = $1`
-	_, err = db.Exec(query, id)
+	query := `delete from Store where NumLoja = $1`
+	_, err = db.Exec(query, NumLoja)
 
-	fmt.Println("Id deleted successfully")
+	fmt.Println("Store deleted successfully")
 
 	defer db.Close()
 	return nil

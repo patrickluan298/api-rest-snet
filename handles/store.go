@@ -30,8 +30,8 @@ func NewStore(c echo.Context) error {
 }
 
 func GetStore(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-	err := repositories.SelectStore(id)
+	NumLoja, _ := strconv.Atoi(c.Param("id"))
+	err := repositories.SelectStore(NumLoja)
 
 	if err != nil {
 		message := models.Message{
@@ -52,9 +52,9 @@ func UpdateStore(c echo.Context) error {
 		return err
 	}
 
-	id, _ := strconv.Atoi(c.Param("id"))
+	NumLoja, _ := strconv.Atoi(c.Param("id"))
 
-	if err := services.UpdateStore(request, id); err != nil {
+	if err := services.UpdateStore(request, NumLoja); err != nil {
 		message := models.Message{
 			Message: err.Error(),
 		}
@@ -84,8 +84,8 @@ func GetAllStores(c echo.Context) error {
 }
 
 func DeleteStore(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-	err := repositories.DeleteStore(id)
+	NumLoja, _ := strconv.Atoi(c.Param("id"))
+	err := repositories.DeleteStore(NumLoja)
 
 	if err != nil {
 		message := models.Message{

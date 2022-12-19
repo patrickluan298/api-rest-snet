@@ -23,7 +23,7 @@ func InsertEstablishment(e *models.Establishment) error {
 		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 			return errors.New("Existing establishment number")
 		}
-		
+
 		return err
 	}
 
@@ -32,16 +32,16 @@ func InsertEstablishment(e *models.Establishment) error {
 	return nil
 }
 
-func SelectEstablishment(id int) error {
+func SelectEstablishment(NumEstablishment int) error {
 	Connection()
 
-	query := `select id from Establishment where id = $1`
-	r, _ := db.Query(query, id)
+	query := `select NumEstablishment from Establishment where NumEstablishment = $1`
+	r, _ := db.Query(query, NumEstablishment)
 	defer db.Close()
 
-	var idT int = 0
+	var NumEstablishmentDB int = 0
 	r.Next()
-	if err := r.Scan(&idT); err != nil {
+	if err := r.Scan(&NumEstablishmentDB); err != nil {
 		fmt.Println("Error selecting establishment:", err.Error())
 
 		if strings.Contains(err.Error(), "Rows are closed") {
@@ -50,9 +50,9 @@ func SelectEstablishment(id int) error {
 
 		return err
 	} else {
-		if id == idT {
-			query := `select * from Establishment where id = $1`
-			r, _ := db.Query(query, id)
+		if NumEstablishment == NumEstablishmentDB {
+			query := `select * from Establishment where NumEstablishment = $1`
+			r, _ := db.Query(query, NumEstablishment)
 
 			for r.Next() {
 				e := models.Establishment{}
@@ -74,36 +74,36 @@ func SelectEstablishment(id int) error {
 	}
 }
 
-func UpdateEstablishment(e *models.Establishment, id int) {
+func UpdateEstablishment(e *models.Establishment, NumEstablishment int) {
 	Connection()
 
 	if e.Nome != "" {
-		query := `UPDATE Establishment set Nome = $1 WHERE id = $2`
-		_, err = db.Exec(query, e.Nome, id)
+		query := `UPDATE Establishment set Nome = $1 WHERE NumEstablishment = $2`
+		_, err = db.Exec(query, e.Nome, NumEstablishment)
 	}
 	if e.RazaoSocial != "" {
-		query := `UPDATE Establishment set RazaoSocial = $1 WHERE id = $2`
-		_, err = db.Exec(query, e.RazaoSocial, id)
+		query := `UPDATE Establishment set RazaoSocial = $1 WHERE NumEstablishment = $2`
+		_, err = db.Exec(query, e.RazaoSocial, NumEstablishment)
 	}
 	if e.Endereco != "" {
-		query := `UPDATE Establishment set Endereco = $1 WHERE id = $2`
-		_, err = db.Exec(query, e.Endereco, id)
+		query := `UPDATE Establishment set Endereco = $1 WHERE NumEstablishment = $2`
+		_, err = db.Exec(query, e.Endereco, NumEstablishment)
 	}
 	if e.Estado != "" {
-		query := `UPDATE Establishment set Estado = $1 WHERE id = $2`
-		_, err = db.Exec(query, e.Estado, id)
+		query := `UPDATE Establishment set Estado = $1 WHERE NumEstablishment = $2`
+		_, err = db.Exec(query, e.Estado, NumEstablishment)
 	}
 	if e.Cidade != "" {
-		query := `UPDATE Establishment set Cidade = $1 WHERE id = $2`
-		_, err = db.Exec(query, e.Cidade, id)
+		query := `UPDATE Establishment set Cidade = $1 WHERE NumEstablishment = $2`
+		_, err = db.Exec(query, e.Cidade, NumEstablishment)
 	}
 	if e.Cep != "" {
-		query := `UPDATE Establishment set Cep = $1 WHERE id = $2`
-		_, err = db.Exec(query, e.Cep, id)
+		query := `UPDATE Establishment set Cep = $1 WHERE NumEstablishment = $2`
+		_, err = db.Exec(query, e.Cep, NumEstablishment)
 	}
 
 	checkErr(err)
-	SelectEstablishment(id)
+	SelectEstablishment(NumEstablishment)
 
 	fmt.Println("Establishment updated successfully")
 	defer db.Close()
@@ -144,8 +144,8 @@ func SelectAllEstablishments() error {
 	return nil
 }
 
-func DeleteEstablishment(id int) error {
-	err = SelectEstablishment(id)
+func DeleteEstablishment(NumEstablishment int) error {
+	err = SelectEstablishment(NumEstablishment)
 
 	if err != nil {
 		fmt.Println("Error deleting establishment:", err.Error())
@@ -158,10 +158,10 @@ func DeleteEstablishment(id int) error {
 	}
 
 	Connection()
-	query := `delete from Establishment where id = $1`
-	_, err = db.Exec(query, id)
+	query := `delete from Establishment where NumEstablishment = $1`
+	_, err = db.Exec(query, NumEstablishment)
 
-	fmt.Println("Id deleted successfully")
+	fmt.Println("Establishment deleted successfully")
 
 	defer db.Close()
 	return nil

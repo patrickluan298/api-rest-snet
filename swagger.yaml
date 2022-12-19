@@ -1,0 +1,264 @@
+openapi: 3.0.3
+
+info:
+  version: '1.0'
+  title: API-REST-SNET
+servers:
+  - url: http://localhost:4321
+    description: Localhost
+  - url: https://virtserver.swaggerhub.com/patrickluan298/api-rest-snet/1.0
+    description: SwaggerHub API
+paths:
+  /health-check:
+    get:
+      summary: Verifica a funcionalidade do serviço
+      tags:
+        - Health Check
+      responses:
+        200:
+          description: Dados do serviço
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Aplicação up e em pleno funcionamento
+                  status:
+                    type: string
+                    example: OK
+  /NewEstablishment:
+    post:
+      summary: Cadastra um estabelecimento
+      tags:
+        - Establishments
+      responses:
+        200:
+          description: Dados do estabelecimento
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Estabelecimento adicionado com sucesso
+                  status:
+                    type: string
+                    example: OK
+  /GetEstablishment:
+    get:
+      summary: Buscar um estabelecimento
+      tags:
+        - Establishments
+      responses:
+        200:
+          description: Dados do estabelecimento
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Estabelecimento encontrado com sucesso
+                  status:
+                    type: string
+                    example: OK
+  /UpdateEstablishment:
+    put:
+      summary: Atualizar um estabelecimento
+      tags:
+        - Establishments
+      responses:
+        200:
+          description: Dados do estabelecimento
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Estabelecimento atualizado com sucesso
+                  status:
+                    type: string
+                    example: OK
+  /GetAllEstablishments:
+    get:
+      summary: Buscar todos os estabelecimentos
+      tags:
+        - Establishments
+      responses:
+        200:
+          description: Dados dos estabelecimentos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Estabelecimentos encontrados com sucesso
+                  status:
+                    type: string
+                    example: OK
+  /DeleteEstablishment:
+    delete:
+      summary: Deletar um estabelecimento
+      tags:
+        - Establishments
+      responses:
+        200:
+          description: Dados do estabelecimento
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Estabelecimento deletado com sucesso
+                  status:
+                    type: string
+                    example: OK
+  /NewStore:
+    post:
+      summary: Cadastra uma loja
+      tags:
+        - Stores
+      responses:
+        200:
+          description: Dados da loja
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Loja adicionada com sucesso
+                  status:
+                    type: string
+                    example: OK
+  /GetStore:
+    get:
+      summary: Buscar uma loja
+      tags:
+        - Stores
+      responses:
+        200:
+          description: Dados da loja
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Loja encontrada com sucesso
+                  status:
+                    type: string
+                    example: OK
+  /UpdateStore:
+    put:
+      summary: Atualizar uma loja
+      tags:
+        - Stores
+      responses:
+        200:
+          description: Dados da loja
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Loja atualizada com sucesso
+                  status:
+                    type: string
+                    example: OK
+  /GetAllStores:
+    get:
+      summary: Buscar todas as lojas
+      tags:
+        - Stores
+      responses:
+        200:
+          description: Dados das lojas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Lojas encontradas com sucesso
+                  status:
+                    type: string
+                    example: OK
+  /DeleteStore:
+    delete:
+      summary: Deletar uma loja
+      tags:
+        - Stores
+      responses:
+        200:
+          description: Dados da loja
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Loja deletada com sucesso
+                  status:
+                    type: string
+                    example: OK
