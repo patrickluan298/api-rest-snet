@@ -49,7 +49,7 @@ func SelectStore(NumLoja int) error {
 		fmt.Println("Error selecting store:", err.Error())
 
 		if strings.Contains(err.Error(), "Rows are closed") {
-			return errors.New("The entered ID is invalid")
+			return errors.New("The store number entered is invalid")
 		}
 
 		return err
@@ -160,7 +160,7 @@ func DeleteStore(NumLoja int) error {
 		fmt.Println("Error deleting store:", err.Error())
 
 		if strings.Contains(err.Error(), "invalid memory address or nil pointer dereference goroutine") {
-			return errors.New("The entered ID is invalid")
+			return errors.New("The store number entered is invalid")
 		}
 
 		return err

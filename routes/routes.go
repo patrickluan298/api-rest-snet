@@ -25,15 +25,15 @@ func HandleRequest() {
 
 	e.GET("/establishments", handles.GetAllEstablishments)
 	e.POST("/establishments", handles.NewEstablishment)
-	e.GET("/establishments/:id", handles.GetEstablishment)
-	e.PUT("/establishments/:id", handles.UpdateEstablishment)
-	e.DELETE("/establishments/:id", handles.DeleteEstablishment)
+	e.GET("/establishments/:NumEstablishment", handles.GetEstablishment)
+	e.PUT("/establishments/:NumEstablishment", handles.UpdateEstablishment)
+	e.DELETE("/establishments/:NumEstablishment", handles.DeleteEstablishment)
 
 	e.GET("/stores", handles.GetAllStores)
 	e.POST("/stores", handles.NewStore)
-	e.GET("/stores/:id", handles.GetStore)
-	e.PUT("/stores/:id", handles.UpdateStore)
-	e.DELETE("/stores/:id", handles.DeleteStore)
+	e.GET("/stores/:NumLoja", handles.GetStore)
+	e.PUT("/stores/:NumLoja", handles.UpdateStore)
+	e.DELETE("/stores/:NumLoja", handles.DeleteStore)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }

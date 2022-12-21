@@ -4,103 +4,100 @@ info:
   version: '1.0'
   title: API-REST-SNET
 servers:
-  - url: http://localhost:4321
-    description: Localhost
-  - url: https://virtserver.swaggerhub.com/patrickluan298/api-rest-snet/1.0
-    description: SwaggerHub API
+- url: http://localhost:4320
+  description: Localhost
+- url: https://virtserver.swaggerhub.com/patrickluan298/api-rest-snet/1.0
+  description: SwaggerHub API
 paths:
   /health-check:
     get:
       summary: Verifica a funcionalidade do serviço
       tags:
-        - Health Check
+      - Health Check
       responses:
         200:
-          description: Dados do serviço
+          description: Sucesso
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 200
                   message:
                     type: string
-                    example: Aplicação up e em pleno funcionamento
+                    example: Aplicação rodando com sucesso
                   status:
                     type: string
                     example: OK
+        404:
+          description: Erro na funcionalidade do serviço
+          content:
+            application/json:
+              example: "Not found"
   /NewEstablishment:
     post:
-      summary: Cadastra um estabelecimento
+      summary: Cadastra um novo estabelecimento
       tags:
-        - Establishments
+      - Establishments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                descricao:
+                  type: string
       responses:
-        200:
-          description: Dados do estabelecimento
+        201:
+          description: Sucesso
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 200
-                  message:
-                    type: string
-                    example: Estabelecimento adicionado com sucesso
-                  status:
-                    type: string
-                    example: OK
-  /GetEstablishment:
+                $ref: "#/components/schemas/statusOk-Establishment"
+        404:
+          description: Erro ao cadastrar o estabelecimento
+          content:
+            application/json:
+              example: "Not found"
+  /GetEstablishment/{NumEstablishment}:
+    parameters:
+    - name: NumEstablishment
+      in: path
+      schema:
+        type: integer
+      required: true
     get:
-      summary: Buscar um estabelecimento
+      summary: Buscar um estabelecimento pelo seu número
       tags:
-        - Establishments
+      - Establishments
       responses:
         200:
-          description: Dados do estabelecimento
+          description: Sucesso
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 200
-                  message:
-                    type: string
-                    example: Estabelecimento encontrado com sucesso
-                  status:
-                    type: string
-                    example: OK
-  /UpdateEstablishment:
+                $ref: "#/components/schemas/statusOk-Establishment"
+        404:
+          description: Número do estabelecimento não encontrado
+          content:
+            application/json:
+              example: "Not found"
+  /UpdateEstablishment/{NumEstablishment}:
     put:
       summary: Atualizar um estabelecimento
       tags:
         - Establishments
       responses:
         200:
-          description: Dados do estabelecimento
+          description: Sucesso
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 200
-                  message:
-                    type: string
-                    example: Estabelecimento atualizado com sucesso
-                  status:
-                    type: string
-                    example: OK
+                $ref: "#/components/schemas/statusOk-Establishment"
+        404:
+          description: Número do estabelecimento não encontrado
+          content:
+            application/json:
+              example: "Not found"
   /GetAllEstablishments:
     get:
       summary: Buscar todos os estabelecimentos
@@ -108,23 +105,12 @@ paths:
         - Establishments
       responses:
         200:
-          description: Dados dos estabelecimentos
+          description: Sucesso
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 200
-                  message:
-                    type: string
-                    example: Estabelecimentos encontrados com sucesso
-                  status:
-                    type: string
-                    example: OK
-  /DeleteEstablishment:
+                $ref: "#/components/schemas/statusOk-allEstablishments"
+  /DeleteEstablishment/{NumEstablishment}:
     delete:
       summary: Deletar um estabelecimento
       tags:
@@ -135,41 +121,29 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 200
-                  message:
-                    type: string
-                    example: Estabelecimento deletado com sucesso
-                  status:
-                    type: string
-                    example: OK
+                $ref: "#/components/schemas/statusOk-Establishment"
+        404:
+          description: Erros de validação
+          content:
+            application/json:
+              example: "Not found"
   /NewStore:
     post:
       summary: Cadastra uma loja
       tags:
         - Stores
       responses:
-        200:
-          description: Dados da loja
+        201:
+          description: Sucesso
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 200
-                  message:
-                    type: string
-                    example: Loja adicionada com sucesso
-                  status:
-                    type: string
-                    example: OK
+                $ref: "#/components/schemas/statusOk-Store"
+        404:
+          description: Erro ao cadastrar o estabelecimento
+          content:
+            application/json:
+              example: "Not found"
   /GetStore:
     get:
       summary: Buscar uma loja
@@ -177,22 +151,16 @@ paths:
         - Stores
       responses:
         200:
-          description: Dados da loja
+          description: Sucesso
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 200
-                  message:
-                    type: string
-                    example: Loja encontrada com sucesso
-                  status:
-                    type: string
-                    example: OK
+                $ref: "#/components/schemas/statusOk-Store"
+        404:
+          description: Erro ao cadastrar o estabelecimento
+          content:
+            application/json:
+              example: "Not found"
   /UpdateStore:
     put:
       summary: Atualizar uma loja
@@ -204,18 +172,12 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 200
-                  message:
-                    type: string
-                    example: Loja atualizada com sucesso
-                  status:
-                    type: string
-                    example: OK
+                $ref: "#/components/schemas/statusOk-Store"
+        404:
+          description: Erro ao cadastrar o estabelecimento
+          content:
+            application/json:
+              example: "Not found"
   /GetAllStores:
     get:
       summary: Buscar todas as lojas
@@ -223,22 +185,11 @@ paths:
         - Stores
       responses:
         200:
-          description: Dados das lojas
+          description: Sucesso
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 200
-                  message:
-                    type: string
-                    example: Lojas encontradas com sucesso
-                  status:
-                    type: string
-                    example: OK
+                $ref: "#/components/schemas/statusOk-allStores"
   /DeleteStore:
     delete:
       summary: Deletar uma loja
@@ -250,15 +201,43 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 200
-                  message:
-                    type: string
-                    example: Loja deletada com sucesso
-                  status:
-                    type: string
-                    example: OK
+                $ref: "#/components/schemas/statusOk-Store"
+        404:
+          description: Erro ao cadastrar o estabelecimento
+          content:
+            application/json:
+              example: "Not found"
+components:
+  schemas:
+    statusOk-Establishment:
+      type: object
+      properties:
+        NumEstablishment:
+          type: integer
+        descricao:
+          type: string
+        status:
+          type: string
+          example: OK
+    statusOk-allEstablishments:
+      type: array
+      items:
+        $ref: "#/components/schemas/statusOk-Establishment"
+    statusOk-Store:
+      type: object
+      properties:
+        NumStore:
+          type: integer
+        descricao:
+          type: string
+        status:
+          type: string
+          example: OK
+    statusOk-allStores:
+      type: array
+      items:
+        $ref: "#/components/schemas/statusOk-Store"
+  securitySchemes:
+    auth:
+      type: http
+      scheme: bearer

@@ -30,7 +30,7 @@ func NewEstablishment(c echo.Context) error {
 }
 
 func GetEstablishment(c echo.Context) error {
-	NumEstablishment, _ := strconv.Atoi(c.Param("id"))
+	NumEstablishment, _ := strconv.Atoi(c.Param("NumEstablishment"))
 	err := repositories.SelectEstablishment(NumEstablishment)
 
 	if err != nil {
@@ -52,7 +52,7 @@ func UpdateEstablishment(c echo.Context) error {
 		return err
 	}
 
-	NumEstablishment, _ := strconv.Atoi(c.Param("id"))
+	NumEstablishment, _ := strconv.Atoi(c.Param("NumEstablishment"))
 
 	if err := services.UpdateEstablishment(request, NumEstablishment); err != nil {
 		message := models.Message{
@@ -84,7 +84,7 @@ func GetAllEstablishments(c echo.Context) error {
 }
 
 func DeleteEstablishment(c echo.Context) error {
-	NumEstablishment, _ := strconv.Atoi(c.Param("id"))
+	NumEstablishment, _ := strconv.Atoi(c.Param("NumEstablishment"))
 	err := repositories.DeleteEstablishment(NumEstablishment)
 
 	if err != nil {

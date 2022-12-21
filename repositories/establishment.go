@@ -45,7 +45,7 @@ func SelectEstablishment(NumEstablishment int) error {
 		fmt.Println("Error selecting establishment:", err.Error())
 
 		if strings.Contains(err.Error(), "Rows are closed") {
-			return errors.New("The entered ID is invalid")
+			return errors.New("The establishment number entered is invalid")
 		}
 
 		return err
@@ -151,7 +151,7 @@ func DeleteEstablishment(NumEstablishment int) error {
 		fmt.Println("Error deleting establishment:", err.Error())
 
 		if strings.Contains(err.Error(), "invalid memory address or nil pointer dereference goroutine") {
-			return errors.New("The entered ID is invalid")
+			return errors.New("The establishment number entered is invalid")
 		}
 
 		return err

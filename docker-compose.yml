@@ -11,6 +11,8 @@ services:
     container_name: api-rest-container
     depends_on:
       - database
+    ports:
+      - 4320:5432
     volumes:
       - pg-data:/var/lib/postgresql/data
       - pg-config:/etc/postgresql
