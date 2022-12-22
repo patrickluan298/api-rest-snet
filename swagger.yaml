@@ -4,10 +4,12 @@ info:
   version: '1.0'
   title: API-REST-SNET
 servers:
+- url: https://63a49ae1821953d4f2b936c4.mockapi.io/
+  description: Server Mock
 - url: http://localhost:4320
   description: Localhost
-- url: https://virtserver.swaggerhub.com/patrickluan298/api-rest-snet/1.0
-  description: SwaggerHub API
+security:
+- auth: []
 paths:
   /health-check:
     get:
@@ -33,7 +35,23 @@ paths:
           content:
             application/json:
               example: "Not found"
-  /NewEstablishment:
+  /establishments:
+    get:
+      summary: Busca todos os estabelecimentos
+      tags:
+        - Establishments
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/allEstablishments"
+        404:
+          description: Erro ao buscar os estabelecimentos
+          content:
+            application/json:
+              example: "Not found"
     post:
       summary: Cadastra um novo estabelecimento
       tags:
@@ -42,23 +60,20 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                descricao:
-                  type: string
+              $ref: "#/components/schemas/establishment"
       responses:
         201:
           description: Sucesso
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/statusOk-Establishment"
+                $ref: "#/components/schemas/establishment"
         404:
           description: Erro ao cadastrar o estabelecimento
           content:
             application/json:
               example: "Not found"
-  /GetEstablishment/{NumEstablishment}:
+  /establishments/{NumEstablishment}:
     parameters:
     - name: NumEstablishment
       in: path
@@ -66,7 +81,7 @@ paths:
         type: integer
       required: true
     get:
-      summary: Buscar um estabelecimento pelo seu número
+      summary: Busca um estabelecimento pelo seu número
       tags:
       - Establishments
       responses:
@@ -75,61 +90,68 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/statusOk-Establishment"
+                $ref: "#/components/schemas/establishment"
         404:
-          description: Número do estabelecimento não encontrado
+          description: Erro ao buscar o estabelecimento
           content:
             application/json:
               example: "Not found"
-  /UpdateEstablishment/{NumEstablishment}:
     put:
-      summary: Atualizar um estabelecimento
+      summary: Atualiza um estabelecimento pelo seu número
       tags:
         - Establishments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/establishment"
       responses:
         200:
           description: Sucesso
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/statusOk-Establishment"
+                $ref: "#/components/schemas/establishment"
         404:
-          description: Número do estabelecimento não encontrado
+          description: Erro ao atualizar o estabelecimento
           content:
             application/json:
               example: "Not found"
-  /GetAllEstablishments:
-    get:
-      summary: Buscar todos os estabelecimentos
-      tags:
-        - Establishments
-      responses:
-        200:
-          description: Sucesso
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/statusOk-allEstablishments"
-  /DeleteEstablishment/{NumEstablishment}:
     delete:
-      summary: Deletar um estabelecimento
+      summary: Deleta um estabelecimento pelo seu número
       tags:
         - Establishments
       responses:
         200:
-          description: Dados do estabelecimento
+          description: Sucesso
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/statusOk-Establishment"
+                $ref: "#/components/schemas/establishment"
         404:
-          description: Erros de validação
+          description: Erro ao deletar o estabelecimento
           content:
             application/json:
               example: "Not found"
-  /NewStore:
+  /stores:
+    get:
+      summary: Busca todas as lojas
+      tags:
+        - Stores
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/allStores"
+        404:
+          description: Erro ao buscar as lojas
+          content:
+            application/json:
+              example: "Not found"
     post:
-      summary: Cadastra uma loja
+      summary: Cadastra uma nova loja
       tags:
         - Stores
       responses:
@@ -138,15 +160,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/statusOk-Store"
+                $ref: "#/components/schemas/store"
         404:
-          description: Erro ao cadastrar o estabelecimento
+          description: Erro ao cadastrar a loja
           content:
             application/json:
               example: "Not found"
-  /GetStore:
+  /stores/{NumLoja}:
+    parameters:
+    - name: NumLoja
+      in: path
+      schema:
+        type: integer
+      required: true
     get:
-      summary: Buscar uma loja
+      summary: Buscar uma loja pelo seu número
       tags:
         - Stores
       responses:
@@ -155,89 +183,97 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/statusOk-Store"
+                $ref: "#/components/schemas/store"
         404:
-          description: Erro ao cadastrar o estabelecimento
+          description: Erro ao buscar a loja
           content:
             application/json:
               example: "Not found"
-  /UpdateStore:
     put:
-      summary: Atualizar uma loja
+      summary: Atualiza uma loja pelo seu número
       tags:
         - Stores
-      responses:
-        200:
-          description: Dados da loja
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/statusOk-Store"
-        404:
-          description: Erro ao cadastrar o estabelecimento
-          content:
-            application/json:
-              example: "Not found"
-  /GetAllStores:
-    get:
-      summary: Buscar todas as lojas
-      tags:
-        - Stores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/store"
       responses:
         200:
           description: Sucesso
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/statusOk-allStores"
-  /DeleteStore:
+                $ref: "#/components/schemas/store"
+        404:
+          description: Erro ao atualizar a loja
+          content:
+            application/json:
+              example: "Not found"
     delete:
       summary: Deletar uma loja
       tags:
         - Stores
       responses:
         200:
-          description: Dados da loja
+          description: Sucesso
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/statusOk-Store"
+                $ref: "#/components/schemas/store"
         404:
-          description: Erro ao cadastrar o estabelecimento
+          description: Erro ao deletar o estabelecimento
           content:
             application/json:
               example: "Not found"
 components:
   schemas:
-    statusOk-Establishment:
+    establishment:
       type: object
       properties:
-        NumEstablishment:
+        nome:
+          type: string
+        razao social:
+          type: string
+        endereco:
+          type: string
+        estado:
+          type: string
+        cidade:
+          type: string
+        cep:
+          type: string
+        numero do estabelecimento:
           type: integer
-        descricao:
-          type: string
-        status:
-          type: string
-          example: OK
-    statusOk-allEstablishments:
+    allEstablishments:
       type: array
       items:
-        $ref: "#/components/schemas/statusOk-Establishment"
-    statusOk-Store:
+        $ref: "#/components/schemas/establishment"
+    store:
       type: object
       properties:
-        NumStore:
+        nome:
+          type: string
+        razao social:
+          type: string
+        endereco:
+          type: string
+        estado:
+          type: string
+        cidade:
+          type: string
+        cep:
+          type: string
+        numero da loja:
           type: integer
-        descricao:
-          type: string
-        status:
-          type: string
-          example: OK
-    statusOk-allStores:
+        id do estabelecimento:
+          type: integer
+    allStores:
       type: array
       items:
-        $ref: "#/components/schemas/statusOk-Store"
+        $ref: "#/components/schemas/store"
   securitySchemes:
     auth:
       type: http
       scheme: bearer
+      bearerFormat: JWT
