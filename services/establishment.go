@@ -13,7 +13,9 @@ func InsertEstablishment(request *models.Establishment) error {
 		fmt.Println("Error registering establishment:", err.Error())
 		return err
 	}
-	repositories.InsertEstablishment(request)
+	if err := repositories.InsertEstablishment(request); err != nil {
+		return err
+	}
 	return nil
 }
 

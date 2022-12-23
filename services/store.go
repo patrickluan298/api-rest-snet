@@ -13,7 +13,9 @@ func InsertStore(request *models.Store) error {
 		fmt.Println("Error registering store:", err.Error())
 		return err
 	}
-	repositories.InsertStore(request)
+	if err := repositories.InsertStore(request); err != nil {
+		return err
+	}
 	return nil
 }
 
