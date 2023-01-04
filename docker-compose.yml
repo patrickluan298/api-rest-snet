@@ -7,12 +7,12 @@ services:
       dockerfile: Dockerfile
     networks:
       - api-network
-    image: api-rest-snet
+    image: api-rest-snet:1.0
     container_name: api-rest-container
     depends_on:
       - database
     ports:
-      - 4320:5432
+      - 1323:5432
     volumes:
       - pg-data:/var/lib/postgresql/data
       - pg-config:/etc/postgresql
@@ -31,7 +31,7 @@ services:
       - "POSTGRES_PASSWORD=753159"
       - "POSTGRES_DB=api-rest-snet"
     ports:
-      - 4321:5432
+      - 1324:5432
     volumes:
       - pg-data:/var/lib/postgresql/data
       - pg-config:/etc/postgresql

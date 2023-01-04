@@ -4,7 +4,7 @@ info:
   version: '1.0'
   title: API-REST-SNET
 servers:
-- url: http://localhost:4320
+- url: http://localhost:1323
   description: Localhost
 - url: https://63a49ae1821953d4f2b936c4.mockapi.io/
   description: Server Mock
